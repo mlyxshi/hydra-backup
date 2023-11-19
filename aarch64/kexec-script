@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e   
+echo "Downloading aarch64 kexec-musl-bin" && curl -LO http://hydra.mlyxshi.com/job/flake/kexec/aarch64/latest/download-by-type/file/kexec-bin && chmod +x ./kexec-bin
+echo "Downloading aarch64 initrd" && curl -LO http://hydra.mlyxshi.com/job/flake/kexec/aarch64/latest/download-by-type/file/initrd
+echo "Downloading aarch64 kernel" && curl -LO http://hydra.mlyxshi.com/job/flake/kexec/aarch64/latest/download-by-type/file/kernel
+
+for i in /etc/ssh/ssh_host_ed25519_key /persist/etc/ssh/ssh_host_ed25519_key; do
+  if [[ -e $i && -s $i ]]; then 
+    echo "Get ssh_host_ed25519_key  from: $i"
+    ssh_host_key=$(cat $i | base64 -w0)
+    break
+  fi     
+done
+
+for i in /home/$SUDO_USER/.ssh/authorized_keys /root/.ssh/authorized_keys /etc/ssh/authorized_keys.d/root; do
+  if [[ -e $i && -s $i ]]; then 
+    echo "Get authorized_keys       from: $i"
+    ssh_authorized_key=$(cat $i | base64 -w0)
+    break
+  fi     
+done
+
+echo "Wait ssh connection lost..., ssh root@ip and enjoy NixOS"
+./kexec-bin --kexec-syscall-auto --load ./kernel --initrd=./initrd  --append "init=/bin/init systemd.show_status=true systemd.log_level=info systemd.log_target=console systemd.journald.forward_to_console=1 loglevel=4 ssh_host_key=$ssh_host_key ssh_authorized_key=$ssh_authorized_key $*"
+./kexec-bin -e
