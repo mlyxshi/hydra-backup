@@ -1,4 +1,0 @@
-#!ipxe
-kernel http://hydra.mlyxshi.com/job/flake/kexec/aarch64/latest/download-by-type/file/kernel initrd=initrd init=/bin/init systemd.show_status=true systemd.log_level=info systemd.log_target=console systemd.journald.forward_to_console=1 loglevel=4 ${cmdline}
-initrd http://hydra.mlyxshi.com/job/flake/kexec/aarch64/latest/download-by-type/file/initrd
-boot
