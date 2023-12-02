@@ -2,7 +2,7 @@
 set -e   
 echo "Downloading x86_64 kexec-musl-bin" && curl -LO https://github.com/mlyxshi/hydra-backup/raw/main/x86_64/kexec && chmod +x ./kexec
 echo "Downloading x86_64 initrd" && curl -LO https://github.com/mlyxshi/hydra-backup/raw/main/x86_64/initrd
-echo "Downloading x86_64 kernel" && curl -LO https://github.com/mlyxshi/hydra-backup/raw/main/x86_64/bzImage
+echo "Downloading x86_64 kernel" && curl -LO https://github.com/mlyxshi/hydra-backup/raw/main/x86_64/kernel
 
 for i in /etc/ssh/ssh_host_ed25519_key /persist/etc/ssh/ssh_host_ed25519_key; do
   if [[ -e $i && -s $i ]]; then 
@@ -21,5 +21,5 @@ for i in /home/$SUDO_USER/.ssh/authorized_keys /root/.ssh/authorized_keys /etc/s
 done
 
 echo "Wait ssh connection lost..., ssh root@ip and enjoy NixOS"
-./kexec --kexec-syscall-auto --load ./bzImage --initrd=./initrd  --append "init=/bin/init systemd.show_status=true systemd.log_level=info systemd.log_target=console systemd.journald.forward_to_console=1 loglevel=4 ssh_host_key=$ssh_host_key ssh_authorized_key=$ssh_authorized_key $*"
+./kexec --kexec-syscall-auto --load ./kernel --initrd=./initrd  --append "init=/bin/init systemd.show_status=true systemd.log_level=info systemd.log_target=console systemd.journald.forward_to_console=1 loglevel=4 ssh_host_key=$ssh_host_key ssh_authorized_key=$ssh_authorized_key $*"
 ./kexec -e

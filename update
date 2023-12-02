@@ -1,0 +1,11 @@
+curl -Lo aarch64/kexec http://hydra.mlyxshi.com/job/nixos/flake/kexec-aarch64/latest/download-by-type/file/kexec 
+curl -Lo aarch64/initrd http://hydra.mlyxshi.com/job/nixos/flake/kexec-aarch64/latest/download-by-type/file/initrd
+curl -Lo aarch64/kernel http://hydra.mlyxshi.com/job/nixos/flake/kexec-aarch64/latest/download-by-type/file/kernel
+
+
+
+curl -Lo x86_64/kexec http://hydra.mlyxshi.com/job/nixos/flake/kexec-x86_64/latest/download-by-type/file/kexec 
+curl -Lo x86_64/initrd http://hydra.mlyxshi.com/job/nixos/flake/kexec-x86_64/latest/download-by-type/file/initrd
+curl -Lo x86_64/kernel http://hydra.mlyxshi.com/job/nixos/flake/kexec-x86_64/latest/download-by-type/file/kernel
+
+
